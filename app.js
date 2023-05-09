@@ -42,8 +42,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use(cors({
-    origin: clientURL,
     credentials: true,
+    origin: 'https://timely-cra.netlify.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
