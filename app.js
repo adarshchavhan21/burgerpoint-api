@@ -22,11 +22,13 @@ exports.instance = new Razorpay({
     key_secret: process.env.RAZORPAY_KEY_SECRET
 })
 
+const clientURL = process.env.CLIENT_URL;
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: clientURL,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
