@@ -23,16 +23,6 @@ exports.instance = new Razorpay({
 })
 
 const clientURL = process.env.CLIENT_URL;
-app.use(cors({
-    origin: clientURL,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
-}));
-
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(cookieParser());
-
 
 app.use(session({
     name: 'access_token',
@@ -41,14 +31,26 @@ app.use(session({
     resave: false,
     cookie: {
         maxAge: 7*24*60*60*1000,
+        httpOnly: true,
         secure: true,
         sameSite: 'none'
     }
 }));
-app.use(passport.authenticate('session'));
+app.use(cookieParser());
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+app.use(cors({
+    origin: clientURL,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}));
+
+app.use(passport.authenticate("session"));
 app.use(passport.initialize());
 app.use(passport.session());
-app.enable('trust proxy')
+app.enable("trust proxy");
 
 passportSetup();
 
