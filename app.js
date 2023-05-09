@@ -23,15 +23,16 @@ exports.instance = new Razorpay({
 })
 
 const clientURL = process.env.CLIENT_URL;
+app.use(cors({
+    origin: 'https://timely-cra.netlify.app',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use(cors({
-    origin: clientURL,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
-}));
+
 
 app.use(session({
     name: 'access_token',
@@ -50,6 +51,8 @@ app.use(passport.session());
 app.enable('trust proxy')
 
 passportSetup();
+
+
 
 // ROUTES
 const authRoutes = require('./routes/authRoutes');
